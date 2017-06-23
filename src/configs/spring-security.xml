@@ -7,14 +7,47 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd
-	http://www.springframework.org/schema/context 
-	http://www.springframework.org/schema/context/spring-context.xsd 
-	http://www.springframework.org/schema/tx 
-	http://www.springframework.org/schema/tx/spring-tx.xsd 
-	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- 学习spring security，实现具有角色的访问控制，并在这里实现配置 -->
+	<http pattern="login.jsp" security="none"/>
+	<http pattern="index.jsp" security="none"/>
+	<http auto-config='true' >
+		<!--<intercept-url pattern="**" access="ROLE_ADMIN,ROLE_USER"/>-->
+		<form-login login-page="/login.jsp"/>
+		<remember-me key="bcp" use-secure-cookie="true" />
+		<logout invalidate-session="true" logout-url="/logout" logout-success-url="/index.jsp" />
+		<intercept-url pattern="/users" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/user/*" access="ROLE_USER,ROLE_ADMIN"/>
+		<session-management>
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />
+		</session-management>
+		<!--<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR"/>-->
+	</http>
 
+<!--  <beans:bean id="myFilter" class="infosec.security.MyFilterSecurityInterceptor">-->
+<!--    <beans:property name="authenticationManager" ref="authenticationManager" /> -->
+<!--    <beans:property name="accessDecisionManager" ref="myAccessDecisionManagerBean" /> -->
+<!--    <beans:property name="securityMetadataSource" ref="securityMetadataSource" /> -->
+<!--  </beans:bean> -->
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="myUserDetailService">
+		</authentication-provider>
+	</authentication-manager>
+
+
+	<beans:bean id="myUserDetailService" class="infosec.security.MyUserDetailService"/>
+	<beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+	<!--<beans:bean id="myAccessDecisionManagerBean"-->
+			<!--class="infosec.security.MyAccessDecisionManager">-->
+	<!--</beans:bean>-->
+	<!--<beans:bean id="securityMetadataSource"-->
+			<!--class="infosec.security.MyInvocationSecurityMetadataSource" />-->
 
 </beans:beans>

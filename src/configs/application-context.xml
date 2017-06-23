@@ -18,8 +18,8 @@
 	<!-- 加载 DAO层的Bean-->
 	<import resource="application-context-mapper.xml" />
 	
-    <!-- spring security 访问控制 课程设计要求
-	<import resource="spring-security.xml" /> 
-	-->
+    <!-- spring security 访问控制 课程设计要求 -->
+	<import resource="spring-security.xml" />
+
 
 </beans>

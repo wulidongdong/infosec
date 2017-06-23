@@ -1,8 +1,13 @@
 package infosec.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,6 +74,21 @@ public class UserController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public String getUser(@PathVariable("id") String id, ModelMap model){
 		try{
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication() .getPrincipal();
+			String username = userDetails.getUsername();
+			String idreal = String.valueOf(userMapper.getByUserName(username).getId());
+			if(id.equals("-1")){
+				id = idreal;
+			}
+			Object[] auth = userDetails.getAuthorities().toArray();
+			GrantedAuthority auth1 = (GrantedAuthority) auth[0];
+			System.out.println( auth1.getAuthority());
+			if(!auth1.getAuthority().equals("ROLE_ADMIN")) {
+
+				if (!idreal.equals(id)) {
+					return "error";
+				}
+			}
 			User user = userMapper.getUser(id);
 			
 			model.addAttribute("user", user);

@@ -34,4 +34,6 @@ public interface UserMapper {
 	 */
 	public User getUser(@Param(value="id")String id);
 
+	public User getByUserName(String username);
+
 }
