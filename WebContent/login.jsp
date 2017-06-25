@@ -18,7 +18,7 @@
 </sec:authorize>
 
 <h3>用户登录</h3>
-<form name='f' action='/j_spring_security_check' method='POST'>
+<form name='f' action=<%= this.getServletContext().getContextPath() %>/j_spring_security_check method='POST'>
     <table>
         <tr><td>User:</td><td><input type='text' name='j_username' value=''></td></tr>
         <tr><td>Password:</td><td><input type='password' name='j_password'/></td></tr>
