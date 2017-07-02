@@ -63,16 +63,28 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	<!-- spring security 拦截器，实现用户认证与权限管理 <filter> <filter-name>springSecurityFilterChain</filter-name> 
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
+		</filter> <filter-mapping> <filter-name>springSecurityFilterChain</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping> -->
 
+	<!-- Authorization setting for SSL -->
+	<login-config>
+		<auth-method>CLIENT-CERT</auth-method>
+		<realm-name>Client Cert Users-only Area</realm-name>
+	</login-config>
+	<security-constraint>
+		<!-- Authorization setting for SSL -->
+		<web-resource-collection >
+			<web-resource-name >SSL</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 
 
 
 </web-app>
+
