@@ -19,14 +19,14 @@ public class JdbcEncryptFromPropertiesFile extends
 
       if (password != null) {//**解密过程**  
           // 解密jdbc.password属性值，重新明文赋值 
-          String strDes = DESUtils.getDecryptString(password);// 密文解密成明文 
-          props.setProperty("jdbc.password", strDes);//赋值  
+          String strAes = AESUtils.decrypt(password);// 密文解密成明文 
+          props.setProperty("jdbc.password", strAes);//赋值  
       }  
       
       if (username != null) {//**解密过程**  
           // 解密jdbc.username属性值，重新明文赋值 
-          String strDes = DESUtils.getDecryptString(username);// 密文解密成明文 
-          props.setProperty("jdbc.username", strDes);//赋值  
+          String strAes = AESUtils.decrypt(username);// 密文解密成明文 
+          props.setProperty("jdbc.username", strAes);//赋值  
       }
       super.processProperties(beanFactory, props);//调用父方法  
 
