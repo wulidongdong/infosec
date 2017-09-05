@@ -16,10 +16,6 @@ import java.util.zip.DataFormatException;
 /**
  * Created by Administrator on 2017/6/23.
  */
-@Bean
-public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-}
 
 public class MyUserDetailService implements UserDetailsService {
     @Autowired
